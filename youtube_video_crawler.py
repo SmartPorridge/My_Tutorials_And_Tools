@@ -1,4 +1,5 @@
 # coding:utf-8
+# Author:Smart Porridge
 import os
 import re
 import urllib2
@@ -25,14 +26,11 @@ def getUrl(html, video_url_list):
     #f.close()
 
 
-root = 'D:/VideoDatasets/zhian_fight/'
+root = './'
 video_path = 'crawle_get_video/'
 
 pages = 20
-#search_words = ['斗殴+监控','监控实拍+打架','surveillance+fight']
-#search_words = ['city+riots+CCTV']
-#search_words = ['demonstration+clash']
-search_words = ['Fighting+and+brawling+in+surveillance']
+search_words = ['human+jump']
 
 video_list = []
 video_folder_list = os.listdir(root + video_path)
