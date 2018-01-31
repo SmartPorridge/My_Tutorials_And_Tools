@@ -6,6 +6,14 @@
 3.使用Windows系统进行下载，直接运行即可
 
 *****************WINDOWS下载说明*********************
+0.工具
+
+
+        下载youtube-dl.exe, https://rg3.github.io/youtube-dl/
+
+	ffmpeg.exe, https://www.ffmpeg.org/
+
+
 1.使用方法：
 	为了下载方便，train、test、val数据分开下载，因此需要执行三次程序。
     在download_win.py当前目录内执行，参数分别为：CSV文件 视频存放路径 -n:同时下载的线程数，-t:缓存存放路径;下面为命令示例：
