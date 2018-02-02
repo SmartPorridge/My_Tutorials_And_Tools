@@ -1,71 +1,68 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# @Time    : 2017/12/20 15:41
+# @Author  : Smart Porridge
+# @File    : decode_videos2images.py
+# @Software: PyCharm
 # @Desc    : decode_videos2images 
 import os,glob
 from time import time
+import argparse
 
-video_root = "kinetics/video/"
-images_root = "kinetics/img/"
-ffmpeg_bin_root = "/home/users//ffmpeg/ffmpeg_build/bin/"
+def generate_frames(video_root, decoded_images_root,video_part,ffmpeg_bin_root, split_num, now_split):
 
-split_num = 3
-now_split = 2
+	video_part_path = video_root + video_part
+	decoded_images_path = '{}{}/'.format(decoded_images_root,video_part)
+	video_list = glob.glob(os.path.join(video_part_path,'*.mp4'))
+	print("There are {} videos in {}".format(len(video_list),video_part_path))
 
-
-def generate_frames(split):
-	# video_list = os.listdir(video_root+split)
-
-	video_list = glob.glob(os.path.join(video_root + split, "train_part3/*.mp4"))
-	# video_list = glob.glob(os.path.join(video_root + split, "*.mp4"))
-	print len(video_list)
-
-	# video_list = open(split+".txt", "r").readlines()
 	video_list.sort()
 	stride = len(video_list) / split_num
 
-
 	start = stride * now_split
 	end = stride * (now_split + 1)
-	if 2 == now_split:
+	if split_num == (now_split+1):
 		end = len(video_list)
-
 	video_list = video_list[start:end]
+	print('Now processing {}-{} videos, total {} videos.'.format(str(start),str(end),len(video_list)))
+	print('Decoded images are saved to : {}'.format(decoded_images_path))
 
-	cnt = 0
-	new_video = 0
+
 	for i, video_path in enumerate(video_list):
-		new_video_path = video_path.strip().split("/")[-1]
+		video_name = video_path.strip().split("/")[-1]
+		decoded_video_path = decoded_images_path + video_name
 
-		new_video_path = images_root + split + "/train_part3/" + new_video_path
+		if not os.path.exists(decoded_video_path):
+			os.makedirs(decoded_video_path)
 
-		# new_video_path = images_root + split + "/" + new_video_path
-		
-		# if os.path.exists(new_video_path):
-		# 	# print new_video_path
-		# 	cnt += 1
-		# 	img_list = glob.glob(os.path.join(new_video_path, "*.jpg"))
-		# 	if 0 != len(img_list):
-		# 		continue
-
-		# continue
-		new_video += 1
-
-		print "\n\n\n\nprocessing " + video_path +"……………………"
-		print i
-		# if not os.path.exists(new_video_path):
-		# 	print "no this file:", new_video_path
-		os.makedirs(new_video_path)
-		# # cnt += 1
-		# print cnt
-		# print new_video
-
-		# continue
+		print('--------------------------')
+		print("Processing {}-{} videos in total {} videos").format(start,end,len(video_list))
+		print("Now processing {} , {}".format(str(i),video_name))
 
 		#无损解图片
-		command = "{}ffmpeg -i {} -q:v 1 {}/image_%5d.jpg".format(ffmpeg_bin_root, video_path, new_video_path)
-		print command
+		command = "{}ffmpeg -i {} -q:v 1 {}/image_%5d.jpg".format(ffmpeg_bin_root, video_path, decoded_video_path)
+		print(command)
 		os.system(command)
 
-		with open("16train2" + str(now_split)+".txt", "a+") as f:
-			f.write(video_path.strip() + "\n")
+		with open("{}{}_{}.txt".format(video_root,video_part,str(now_split)),'a+') as f:
+			f.write(video_path.strip() + '\n')
 
-generate_frames("train")
-print "done"
+def main():
+	parser = argparse.ArgumentParser()
+	parser.add_argument('--split_num',help='split to how many parts',default = 3)
+	parser.add_argument('--now_split',help='which part to process now',default = 0)
+	args = parser.parse_args()
+
+	split_num = int(args.split_num)
+	now_split = int(args.now_split)
+
+	video_root = "kinetics/video/"
+	video_part = 'train/train_part3' #处理数据集哪一个文件夹下的视频 : val train/train_part1 train/train_part2 train/train_part3
+	decoded_images_root = "kinetics/img/"
+	ffmpeg_bin_root = "ffmpeg/ffmpeg_build/bin/"
+
+	generate_frames(video_root, decoded_images_root, video_part, ffmpeg_bin_root, split_num,now_split)
+	print "all done"
+
+if __name__ == "__main__":
+	main()
