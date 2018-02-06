@@ -4,3 +4,5 @@
 1.两个model的caffe版本不一致时，需要先将一个model的参数使用caffe读取出来，保存至.pkl文件中，然后读取另一个model和保存的pkl文件，实现复制。
 
 2.两个model的caffe版本一致时，直接一次性读取后复制即可。
+
+    copy_2_models_para_2_one_model.py
