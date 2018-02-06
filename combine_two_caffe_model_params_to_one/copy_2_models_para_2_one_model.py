@@ -23,7 +23,6 @@ net_1 = caffe.Net(SRC_NET_1, SRC_WEIGHTS_1, caffe.TRAIN)
 net_2 = caffe.Net(SRC_NET_2, SRC_WEIGHTS_2, caffe.TRAIN)
 
 target_net = caffe.Net(TGT_NET, caffe.TEST)
-#test_net = caffe.Net(TGT_NET_FlowNet2xTSN,Test_FlowNet2xTSN_Weight, caffe.TRAIN)
 print('model load successful!!!')
 
 
