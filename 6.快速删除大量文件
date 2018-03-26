@@ -1,0 +1,6 @@
+快速删除大量文件：
+1）首先建立一个空白文件夹。
+mkdir /tmp/empty
+2）之后使用以下语句即可快速的删除文件。
+rsync --delete-before -d /tmp/empty/ /the/folder/you/want/delete/
+原文中说不要忘记文件夹后的“/” 
