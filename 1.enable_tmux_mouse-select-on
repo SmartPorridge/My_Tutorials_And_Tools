@@ -1,6 +1,12 @@
+Ubuntu16.04
+新的开启命令
+set -g mouse on
+……………………………………………………………………………………………………………………………………………………………………
 usage:add the following command to .tmux.conf
 
   setw -g mouse-resize-pane on
   setw -g mouse-select-pane on
   setw -g mouse-select-window on
   setw -g mode-mouse on
+
+
